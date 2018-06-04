@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div id="alert" style="display:none;" role="alert"></div>
+<h1>案例管理</h1>
+<div id='cases' class="panel panel-warning">
+	{% include 'urea/_cases.html' %}
+</div>
+{% include 'urea/_addcasemodal.html' %}
+{% include 'urea/_delmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+
+	<script type=text/javascript src="{{ url_for('static',filename='scripts/cases.js') }}"></script>
+{% endblock %}

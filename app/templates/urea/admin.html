@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div id="alert" style="display:none;" role="alert"></div>
+<h1>生命周期过程计算选项管理</h1>
+<div id='rawmaterials-transports'>
+	{% include 'urea/_randt.html' %}
+</div>
+<div id='processmaterials' class="panel panel-warning">
+	{% include 'urea/_processmaterials.html' %}
+</div>
+<div id='wastes' class="panel panel-danger">
+	{% include 'urea/_wastes.html' %}
+</div>
+{% include 'urea/_editrawmaterialmodal.html' %}
+{% include 'urea/_editprocessmaterialmodal.html' %}
+{% include 'urea/_editwastemodal.html' %}
+{% include 'urea/_delmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='scripts/admin.js') }}"></script>
+{% endblock %}

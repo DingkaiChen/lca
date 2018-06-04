@@ -1,0 +1,39 @@
+<div class="modal fade" id="editWasteModal" tabindex="-1" role="dialog" aria-labelledby="editWasteModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="editWasteModalLable"></h4>
+			</div>
+			<form action="" method="post">
+				{{ wasteform.hidden_tag() }}
+				<div class="modal-body">
+					<div style="display:none;">
+						{{ wasteform.id }}
+					</div>
+					<div>
+						{{ wasteform.name.label }}
+						<input id="name" name="name" class="form-control" type="text" value="">
+					</div>
+					<br>
+					<div>
+						{{ wasteform.unit.label }}
+						<input id="unit" name="unit" class="form-control" type="text" value="">
+					</div>
+					<br>
+					<div>
+						{{ wasteform.default.label }}
+						<div class="input-group">
+							<input id="default" name="default" class="form-control" type="text" value="">
+							<span class="input-group-addon">标准煤/单位</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> {{ wasteform.wastesubmit() }}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>		
+

@@ -1,0 +1,44 @@
+<div class="modal fade" id="editTransportModal" tabindex="-1" role="dialog" aria-labelledby="editTransportModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="editTransportModalLable"></h4>
+			</div>
+			<form action="" method="post">
+				{{ transportform.hidden_tag() }}
+				<div class="modal-body">
+					<div style="display:none;">
+						{{ transportform.id }}
+					</div>
+					<div>
+						{{ transportform.rawmaterial.label }}
+						{{ transportform.rawmaterial }}	
+					</div>
+					<br>
+					<div>
+						{{ transportform.method.label }}
+						<input id="method" name="method" class="form-control" type="text" value="">
+					</div>
+					<br>
+					<div>
+						{{ transportform.unit.label }}
+						<input id="unit" name="unit" class="form-control" type="text" value="">
+					</div>
+					<br>
+					<div>
+						{{ transportform.default.label }}
+						<div class="input-group">
+							<input id="default" name="default" class="form-control" type="text" value="">
+							<span class="input-group-addon">标准煤/单位</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button> {{ transportform.transportsubmit() }}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>		
+
