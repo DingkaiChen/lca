@@ -258,7 +258,7 @@ def case(id):
 					if procase is None:
 						procase=Caseprocessmaterial(case=case,\
 							processmaterial=pro,\
-							unitquantity=uq,
+							unitquantity=uq,\
 							unitenergyconsumption=uec)
 						db.session.add(procase)
 					else:
@@ -353,6 +353,109 @@ def case(id):
 					unitquantity=0)
 				wastecases.append(wastecase)
 		return render_template('urea/case.html',case=case,rawcases=rawcases,transcases=transcases,procases=procases,wastecases=wastecases)
+
+@bp.route("/calculate",methods=["GET","POST"])
+def calculate():
+	if request.method=='POST':
+		raw_value=0
+		tran_value=0
+		pro_value=0
+		waste_value=0
+		unitvalues=[]
+		totalvalues=[]
+		efficiency=0
+		energyconsumption=0
+		quantitytype=request.form['quantitytype']
+		productquantity=float(request.form['urea'])
+		
+		raws=Rawmaterial.query.all()
+		for raw in raws:
+			uec=request.form.get("raw-{}-uec".format(raw.id))
+			uq=request.form.get("raw-{}-uq".format(raw.id))
+			if uec is not None and uq is not None:	
+				uec=float(uec)
+				uq=float(uq)
+				rawcase=Caserawmaterial(rawmaterial=raw,unitquantity=uq,unitenergyconsumption=uec)
+				raw_value=raw_value+uec*uq
+			for tran in raw.transports:
+				tran_uec=request.form.get("tran-{}-uec".format(tran.id))
+				tran_uq=request.form.get("tran-{}-uq".format(tran.id))
+				if tran_uec is not None and tran_uq is not None:
+					tran_uec=float(tran_uec)
+					tran_uq=float(tran_uq)
+					trancase=Casetransport(transport=tran,unitquantity=tran_uq,unitenergyconsumption=tran_uec)
+					tran_value=tran_value+tran_uec*tran_uq*uq
+		pros=Processmaterial.query.all()
+		for pro in pros:
+			uec=request.form.get("pro-{}-uec".format(pro.id))
+			uq=request.form.get("pro-{}-uq".format(pro.id))
+			if uec is not None and uq is not None:
+				uec=float(uec)
+				uq=float(uq)
+				procase=Caseprocessmaterial(processmaterial=pro,unitquantity=uq,unitenergyconsumption=uec)
+				pro_value=pro_value+uec*uq
+		wastes=Waste.query.all()
+		for waste in wastes:
+			uec=request.form.get("waste-{}-uec".format(waste.id))
+			uq=request.form.get("waste-{}-uq".format(waste.id))
+			if uec is not None and uq is not None:
+				uec=float(uec)
+				uq=float(uq)
+				wastecase=Casewaste(waste=waste,unitquantity=uq,unitenergyconsumption=uec)
+				waste_value=waste_value+uec*uq
+		
+		value=raw_value+tran_value+pro_value+waste_value
+		if quantitytype=="single":
+			efficiency=value
+			energyconsumption=value*productquantity
+			unitvalues.append(raw_value)
+			unitvalues.append(tran_value)
+			unitvalues.append(pro_value)
+			unitvalues.append(waste_value)
+			totalvalues.append(raw_value*productquantity)
+			totalvalues.append(tran_value*productquantity)
+			totalvalues.append(pro_value*productquantity)
+			totalvalues.append(waste_value*productquantity)
+		else:
+			energyconsumption=value
+			totalvalues.append(raw_value)
+			totalvalues.append(tran_value)
+			totalvalues.append(pro_value)
+			totalvalues.append(waste_value)
+			if productquantity==0:
+				efficiency=0
+				unitvalues=[0,0,0,0]
+			else:
+				efficiency=value/productquantity
+				unitvalues.append(raw_value/productquantity)
+				unitvalues.append(tran_value/productquantity)
+				unitvalues.append(pro_value/productquantity)
+				unitvalues.append(waste_value/productquantity)
+		return render_template('urea/calculateresult.html',efficiency=efficiency,productquantity=productquantity,energyconsumption=energyconsumption,unitvalues=unitvalues,totalvalues=totalvalues)
+
+	else:
+		rawcases=[]
+		transcases=[]
+		procases=[]
+		wastecases=[]
+	
+		raws=Rawmaterial.query.order_by(Rawmaterial.name).all()
+		for raw in raws:
+			rawcase=Caserawmaterial(rawmaterial=raw,unitenergyconsumption=raw.default,unitquantity=0)
+			rawcases.append(rawcase)
+		transports=Transport.query.order_by(Transport.method).all()
+		for transport in transports:
+			transcase=Casetransport(transport=transport,unitenergyconsumption=transport.default,unitquantity=0)
+			transcases.append(transcase)
+		pros=Processmaterial.query.order_by(Processmaterial.name).all()
+		for pro in pros:
+			procase=Caseprocessmaterial(processmaterial=pro,unitenergyconsumption=pro.default,unitquantity=0)
+			procases.append(procase)
+		wastes=Waste.query.order_by(Waste.name).all()
+		for waste in wastes:
+			wastecase=Casewaste(waste=waste,unitenergyconsumption=waste.default,unitquantity=0)
+			wastecases.append(wastecase)
+		return render_template('urea/calculate.html',quantitytype="single",productquantity=0,rawcases=rawcases,transcases=transcases,procases=procases,wastecases=wastecases)
 
 @bp.route("/delcase",methods=["POST"])
 def delcase():

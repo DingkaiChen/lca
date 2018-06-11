@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div style="text-align:center;">
+	<h4>生命周期能耗试算结果<h4>
+</div>
+<div class="panel panel-default">
+	<table class="table">
+		<tr>
+			<td>年尿素生产量<b>{{ productquantity }}</b>吨</td>
+		</tr>
+	</table>
+</div>
+<div class="panel panel-default">
+	<table class="table">
+		<tr>
+			<th scope="col">项目</th>
+			<th scope="col">单位尿素生产生命周期能耗（吨标准煤）</th>
+			<th scope="col">年尿素生产生命周期能耗（吨标准煤）</th>
+		</tr>
+		<tr>
+			<td><b>原料成产</b></td>
+			<td>{{ unitvalues[0] }}</td>
+			<td>{{ totalvalues[1] }}</td>
+		</tr>
+		<tr>
+			<td><b>原料运输</b></td>
+			<td>{{ unitvalues[1] }}</td>
+			<td>{{ totalvalues[1] }}</td>
+		</tr>
+		<tr>
+			<td><b>生产过程</b></td>
+			<td>{{ unitvalues[2] }}</td>
+			<td>{{ totalvalues[2] }}</td>
+		</tr>
+		<tr>
+			<td><b>废弃物处理</b></td>
+			<td>{{ unitvalues[3] }}</td>
+			<td>{{ totalvalues[3] }}</td>
+		</tr>
+		<tr>
+			<td><b>总能耗</b></td>
+			<td><b>{{ efficiency }}</b></td>
+			<td><b>{{ energyconsumption }}</td>
+		</tr>
+	</table>
+</div>
+{% endblock %} 

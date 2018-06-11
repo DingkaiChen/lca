@@ -9,12 +9,24 @@ import jwt
 def load_user(id):
 	return User.query.get(int(id))
 
+roles_users=db.Table('roles_users',\
+	db.Column('user_id',db.Integer,db.ForeignKey('user.id')),
+	db.Column('role_id',db.Integer,db.ForeignKey('role.id')))
+
+class Role(db.Model):
+	id=db.Column(db.Integer,primary_key=True)
+	rolename=db.Column(db.String(64),unique=True)
+	description=db.Column(db.String(255))
+
 class User(UserMixin,db.Model):
 	id=db.Column(db.Integer,primary_key=True)
 	username=db.Column(db.String(64),index=True,unique=True)
 	email=db.Column(db.String(120),index=True,unique=True)
 	password_hash=(db.Column(db.String(128)))
 	cases=db.relationship('Case',backref='user',lazy='dynamic')
+	roles=db.relationship('Role',\
+		secondary=roles_users,\
+		backref=db.backref('users',lazy='dynamic'))
 
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
@@ -24,6 +36,13 @@ class User(UserMixin,db.Model):
 
 	def check_password(self,password):
 		return check_password_hash(self.password_hash,password)
+
+	def check_roles(self,rolenames):
+		for rolename in rolenames:
+			role=Role.query.filter_by(rolename=rolename).first()
+			if role in self.roles:
+				return True
+		return False
 	
 	def get_reset_password_token(self,expires_in=600):
 		return jwt.encode(\

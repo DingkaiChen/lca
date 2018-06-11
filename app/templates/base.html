@@ -23,8 +23,17 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url_for('main.index') }}">主页</a></li>
+					{% if current_user.is_authenticated %}
+					{% if current_user.check_roles(['admin','paramadmin']) %}
 					<li><a href="{{ url_for('urea.admin') }}">过程选项管理</a></li>
+					{% endif %}
+					{% endif %}
+					{% if current_user.is_authenticated %}
+					{% if current_user.check_roles(['admin','paramadmin','general']) %}
 					<li><a href="{{ url_for('urea.cases') }}">案例管理</a></li>
+					{% endif %}
+					{% endif %}
+					<li><a href="{{ url_for('urea.calculate') }}">能耗试算</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_anonymous %}
