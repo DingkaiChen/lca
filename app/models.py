@@ -27,6 +27,8 @@ class User(UserMixin,db.Model):
 	roles=db.relationship('Role',\
 		secondary=roles_users,\
 		backref=db.backref('users',lazy='dynamic'))
+	name=db.Column(db.String(64))
+	phone=db.Column(db.String(32))
 
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
@@ -56,6 +58,38 @@ class User(UserMixin,db.Model):
 		except:
 			return
 		return User.query.get(id)
+
+class Register(db.Model):
+	id=db.Column(db.Integer,primary_key=True)
+	username=db.Column(db.String(64),index=True,unique=True)
+	email=db.Column(db.String(120),index=True,unique=True)
+	password_hash=(db.Column(db.String(128)))
+	name=db.Column(db.String(64))
+	phone=db.Column(db.String(32))
+	verified=db.Column(db.Integer)
+
+	def __repr__(self):
+		return '<Register {}>'.format(self.username)
+
+	def set_password(self,password):
+		self.password_hash=generate_password_hash(password)
+
+	def verify(self):
+		self.verified=1
+
+	def get_register_verify_token(self,expires_in=600):
+		return jwt.encode(\
+			{'register_verify':self.id,'exp':time()+expires_in},\
+			current_app.config['SECRET_KEY'],algorithm='HS256').decode('utf-8')
+
+	@staticmethod
+	def verify_register_verify_token(token):
+		try:
+			id=jwt.decode(token,current_app.config['SECRET_KEY'],algorithms=['HS256'])['register_verify']
+		except:
+			return
+		return Register.query.get(id)
+
 
 class Rawmaterial(db.Model):
 	id=db.Column(db.Integer,primary_key=True)
