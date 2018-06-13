@@ -22,7 +22,7 @@ def login():
 		if not next_page or url_parse(next_page).netloc!='':
 			next_page=url_for('main.index')
 		return redirect(next_page)
-	return render_template('auth/login.html',title='Sign In',form=form)
+	return render_template('auth/login.html',title='登录',form=form)
 
 @bp.route('/logout')
 def logout():
@@ -43,7 +43,7 @@ def register():
 		send_register_verify_email(register)
 		flash('您的申请已提交，系统将自动发送确认邮件至您填写的邮箱地址，请通过该邮件进行邮箱地址认证!')
 		return redirect(url_for('auth.login'))
-	return render_template('auth/register.html',title='Register',form=form)
+	return render_template('auth/register.html',title='注册',form=form)
 
 @bp.route('/reset_password_request',methods=['GET','POST'])
 def reset_password_request():
@@ -56,7 +56,7 @@ def reset_password_request():
 			send_password_reset_email(user)
 		flash('请查收邮件并根据邮件内容重置密码.')
 		return redirect(url_for('auth.login'))
-	return render_template('auth/reset_password_request.html',title='Reset Password',form=form)
+	return render_template('auth/reset_password_request.html',title='密码重置申请',form=form)
 
 @bp.route('/reset_password/<token>',methods=['GET','POST'])
 def reset_password(token):
@@ -71,7 +71,7 @@ def reset_password(token):
 		db.session.commit()
 		flash('密码已重置.')
 		return redirect(url_for('auth.login'))
-	return render_template('auth/reset_password.html',form=form)
+	return render_template('auth/reset_password.html',title='密码重置',form=form)
 
 @bp.route('/register_verify/<token>',methods=['GET'])
 def register_verify(token):
@@ -95,7 +95,7 @@ def newusers():
 		return redirect(url_for('main.index'))
 	newusers=Register.query.filter_by(verified=1).all()
 	print(newusers)
-	return render_template('auth/newusers.html',title='newusers',newusers=newusers)
+	return render_template('auth/newusers.html',title='用户审核',newusers=newusers)
 	
 @bp.route('/acceptnewuser',methods=['POST'])
 @login_required

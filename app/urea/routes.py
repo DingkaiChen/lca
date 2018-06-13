@@ -352,7 +352,7 @@ def case(id):
 					unitenergyconsumption=waste.default,\
 					unitquantity=0)
 				wastecases.append(wastecase)
-		return render_template('urea/case.html',case=case,rawcases=rawcases,transcases=transcases,procases=procases,wastecases=wastecases)
+		return render_template('urea/case.html',title='案例编辑',case=case,rawcases=rawcases,transcases=transcases,procases=procases,wastecases=wastecases)
 
 @bp.route("/calculate",methods=["GET","POST"])
 def calculate():
@@ -455,7 +455,7 @@ def calculate():
 		for waste in wastes:
 			wastecase=Casewaste(waste=waste,unitenergyconsumption=waste.default,unitquantity=0)
 			wastecases.append(wastecase)
-		return render_template('urea/calculate.html',quantitytype="single",productquantity=0,rawcases=rawcases,transcases=transcases,procases=procases,wastecases=wastecases)
+		return render_template('urea/calculate.html',title='能耗试算',quantitytype="single",productquantity=0,rawcases=rawcases,transcases=transcases,procases=procases,wastecases=wastecases)
 
 @bp.route("/delcase",methods=["POST"])
 def delcase():

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
-	<h1>Sign In</h1>
+	<h1>用户登录</h1>
 	<form action="" method="post">
 		{{ form.hidden_tag() }}
 		<p>
@@ -21,8 +21,8 @@
 		<p>{{ form.remember_me() }} {{form.remember_me.label }}</p>
 		<p>{{ form.submit() }}</p>
 	</form>
-	<p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
-	<p>Forgot Your Password? <a href="{{ url_for('auth.reset_password_request') }}">Click to Reset It</a></p>
+	<p>没有帐号？ <a href="{{ url_for('auth.register') }}">点击注册</a></p>
+	<p>忘记密码？ <a href="{{ url_for('auth.reset_password_request') }}">点击重置密码</a></p>
 		
 {% endblock %}
 

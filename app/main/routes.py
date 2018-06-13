@@ -7,4 +7,4 @@ from werkzeug.urls import url_parse
 @bp.route('/')
 @bp.route('/index',methods=['GET'])
 def index():
-	return render_template('main/index.html',title='Home')
+	return render_template('main/index.html',title='首页')

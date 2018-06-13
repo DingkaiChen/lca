@@ -4,19 +4,19 @@ from wtforms.validators import InputRequired,DataRequired,ValidationError,Email,
 from app.models import User,Register
 
 class LoginForm(FlaskForm):
-	username=StringField('Username',validators=[DataRequired()])
-	password=PasswordField('Password',validators=[DataRequired()])
-	remember_me=BooleanField('Remember Me')
-	submit=SubmitField('Sign In')
+	username=StringField('用户名',validators=[DataRequired()])
+	password=PasswordField('密码',validators=[DataRequired()])
+	remember_me=BooleanField('自动登录')
+	submit=SubmitField('登录')
 
 class RegistrationForm(FlaskForm):
-	username=StringField('Username',validators=[DataRequired()])
-	email=StringField('Email',validators=[DataRequired(),Email()])
-	password=PasswordField('Password',validators=[DataRequired()])
-	password2=PasswordField('Repeat Password',validators=[DataRequired(),EqualTo('password')])
+	username=StringField('用户名',validators=[DataRequired()])
+	email=StringField('电子邮箱',validators=[DataRequired(),Email()])
+	password=PasswordField('密码',validators=[DataRequired()])
+	password2=PasswordField('确认密码',validators=[DataRequired(),EqualTo('password')])
 	phone=StringField('联系电话',validators=[InputRequired()])
 	name=StringField('姓名',validators=[InputRequired()])
-	submit=SubmitField('Register')
+	submit=SubmitField('注册')
 
 	def validate_username(self,username):
 		user=User.query.filter_by(username=username.data).first()
@@ -37,10 +37,10 @@ class RegistrationForm(FlaskForm):
 				raise ValidationError('邮箱已被注册，请使用其它邮箱注册.')
 
 class ResetPasswordRequestForm(FlaskForm):
-	email=StringField('Email',validators=[DataRequired(),Email()])
-	submit=SubmitField('Request Password Reset')
+	email=StringField('电子邮箱',validators=[DataRequired(),Email()])
+	submit=SubmitField('申请密码重置')
 
 class ResetPasswordForm(FlaskForm):
-	password=PasswordField('Password',validators=[DataRequired()])
-	password2=PasswordField('Repeat Password',validators=[DataRequired(),EqualTo('password')])
-	submit=SubmitField('Request Password Reset')
+	password=PasswordField('新密码',validators=[DataRequired()])
+	password2=PasswordField('确认新密码',validators=[DataRequired(),EqualTo('password')])
+	submit=SubmitField('更改密码')

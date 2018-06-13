@@ -35,7 +35,7 @@ $(document).ready(function(){
 			if(result=='fail')
 			{
 				$('#alert').text('审核通过操作失败！');
-				$('#alert').attr('class','alsert alert-warning');
+				$('#alert').attr('class','alert alert-warning');
 				$('#alert').attr('style','');
 			}
 			else
@@ -43,7 +43,7 @@ $(document).ready(function(){
 				$('#newusers').text("");
 				$('#newusers').append(result);
 				$('#alert').text('用户 <'+name+'> 注册申请已审核通过，系统将自动发送邮件通知该用户。');
-				$('#alert').attr('class','alsert alert-success');
+				$('#alert').attr('class','alert alert-success');
 				$('#alert').attr('style','');
 				$('#newusers').find('.accept').click(function(){
 					$(this).accept();
@@ -66,7 +66,7 @@ $(document).ready(function(){
 			if(result=='fail')
 			{
 				$('#alert').text('拒绝通过的操作失败！');
-				$('#alert').text('class','alsert alert-warning');
+				$('#alert').text('class','alert alert-warning');
 				$('#alert').text('style','');
 			}
 			else
@@ -74,7 +74,7 @@ $(document).ready(function(){
 				$('#newusers').text("");
 				$('#newusers').append(result);
 				$('#alert').text('用户 <'+name+'> 的注册申请已被拒绝，系统将自动发送邮件通知该用户.');
-				$('#alert').text('class','alsert alert-success');
+				$('#alert').text('class','alert alert-success');
 				$('#alert').text('style','');
 				$('#newusers').find('.accept').click(function(){
 					$(this).accept();
