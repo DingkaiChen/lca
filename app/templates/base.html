@@ -65,4 +65,25 @@
 		{% endwith %}
 		{% block app_content %}{% endblock %}
 	</div>
+	<div class="body-footer">
+		<div class="container">
+			<div class="about">
+				<div class="link">
+					<h3>相关链接</h3>
+					<ul>
+						<li><a href="http://www.iue.ac.cn/">中国科学院城市环境研究所</a></li>
+						<li><a href="http://www.cas.cn/">中国科学院</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="copyright">
+			<p>&copy;2018 - 中国科学院城市环境研究所 地址：厦门市集美达到1799号 邮编：361021</p>
+		</div>
+	</div>
+{% endblock %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/mycss.css') }}"/>
 {% endblock %}

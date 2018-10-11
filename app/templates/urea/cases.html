@@ -6,6 +6,7 @@
 <div id='cases' class="panel panel-warning">
 	{% include 'urea/_cases.html' %}
 </div>
+<div id="container" style="width: 100%; height:400px;"></div>
 {% include 'urea/_addcasemodal.html' %}
 {% include 'urea/_delmodal.html' %}
 {% endblock %}
@@ -13,5 +14,6 @@
 {% block scripts %}
 	{{ super() }}
 
+	<script type=text/javascript src="{{ url_for('static',filename='scripts/highcharts.js') }}"></script>
 	<script type=text/javascript src="{{ url_for('static',filename='scripts/cases.js') }}"></script>
 {% endblock %}
